@@ -28,7 +28,6 @@ class ApiCalendar {
      * @param {object} config 
      */
     setApiConfig(config) {
-        console.log('API configuration', config);
         if (typeof config === 'object') {
             const stringConfig = JSON.stringify(config);
             if (this.isConfigValid(stringConfig)) 
@@ -48,7 +47,7 @@ class ApiCalendar {
     isConfigValid(config) {
         try {
             JSON.parse(config);
-            console.log('configuration param is valid!');
+            console.log('google api config passed!');
             return true;
         } catch (e) {
             console.log(e);
@@ -154,11 +153,11 @@ class ApiCalendar {
      * @param {string} calendarId to see by default use the calendar attribute
      * @returns {any}
      */
-    listUpcomingEvents(maxResults, calendarId = this.calendar) {
+    listUpcomingEvents(maxResults, calendarId = this.calendar, startDate) {
         if (this.gapi) {
             return this.gapi.client.calendar.events.list({
                 'calendarId': calendarId,
-                'timeMin': (new Date()).toISOString(),
+                'timeMin': ((startDate) ? startDate : new Date()).toISOString(),
                 'showDeleted': false,
                 'singleEvents': true,
                 'maxResults': maxResults,

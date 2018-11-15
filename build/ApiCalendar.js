@@ -45,7 +45,6 @@ var ApiCalendar = function () {
     _createClass(ApiCalendar, [{
         key: 'setApiConfig',
         value: function setApiConfig(config) {
-            console.log('API configuration', config);
             if ((typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object') {
                 var stringConfig = JSON.stringify(config);
                 if (this.isConfigValid(stringConfig)) this.config = config;
@@ -64,7 +63,7 @@ var ApiCalendar = function () {
         value: function isConfigValid(config) {
             try {
                 JSON.parse(config);
-                console.log('configuration param is valid!');
+                console.log('google api config passed!');
                 return true;
             } catch (e) {
                 console.log(e);
@@ -197,11 +196,12 @@ var ApiCalendar = function () {
         key: 'listUpcomingEvents',
         value: function listUpcomingEvents(maxResults) {
             var calendarId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.calendar;
+            var startDate = arguments[2];
 
             if (this.gapi) {
                 return this.gapi.client.calendar.events.list({
                     'calendarId': calendarId,
-                    'timeMin': new Date().toISOString(),
+                    'timeMin': (startDate ? startDate : new Date()).toISOString(),
                     'showDeleted': false,
                     'singleEvents': true,
                     'maxResults': maxResults,
