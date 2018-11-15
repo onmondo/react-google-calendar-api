@@ -28,6 +28,7 @@ class ApiCalendar {
      * @param {object} config 
      */
     setApiConfig(config) {
+        console.log('API configuration', config);
         if (typeof config === 'object') {
             const stringConfig = JSON.stringify(config);
             if (this.isConfigValid(stringConfig)) 
@@ -47,6 +48,7 @@ class ApiCalendar {
     isConfigValid(config) {
         try {
             JSON.parse(config);
+            console.log('configuration param is valid!');
             return true;
         } catch (e) {
             console.log(e);

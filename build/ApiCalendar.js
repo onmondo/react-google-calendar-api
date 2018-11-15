@@ -45,6 +45,7 @@ var ApiCalendar = function () {
     _createClass(ApiCalendar, [{
         key: 'setApiConfig',
         value: function setApiConfig(config) {
+            console.log('API configuration', config);
             if ((typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object') {
                 var stringConfig = JSON.stringify(config);
                 if (this.isConfigValid(stringConfig)) this.config = config;
@@ -63,6 +64,7 @@ var ApiCalendar = function () {
         value: function isConfigValid(config) {
             try {
                 JSON.parse(config);
+                console.log('configuration param is valid!');
                 return true;
             } catch (e) {
                 console.log(e);
