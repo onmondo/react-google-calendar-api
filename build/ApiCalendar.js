@@ -31,7 +31,7 @@ var ApiCalendar = function () {
             this.listenSign = this.listenSign.bind(this);
             this.onLoad = this.onLoad.bind(this);
             this.setCalendar = this.setCalendar.bind(this);
-            this.handleClientLoad();
+            // this.handleClientLoad();
         } catch (e) {
             console.log(e);
         }
