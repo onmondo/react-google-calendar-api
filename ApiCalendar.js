@@ -157,7 +157,7 @@ class ApiCalendar {
         if (this.gapi) {
             return this.gapi.client.calendar.events.list({
                 'calendarId': calendarId,
-                'timeMin': ((startDate) ? startDate : new Date()).toISOString(),
+                'timeMin': ((startDate) ? startDate : new Date().toISOString()),
                 'showDeleted': false,
                 'singleEvents': true,
                 'maxResults': maxResults,
