@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Config = require("../../../apiGoogleconfig.json");
 
 var ApiCalendar = function () {
     function ApiCalendar() {
@@ -19,6 +19,8 @@ var ApiCalendar = function () {
         this.onLoadCallback = null;
         this.calendar = 'primary';
         try {
+            this.setApiConfig = this.setApiConfig.bind(this);
+            this.isConfigValid = this.isConfigValid.bind(this);
             this.updateSigninStatus = this.updateSigninStatus.bind(this);
             this.initClient = this.initClient.bind(this);
             this.handleSignoutClick = this.handleSignoutClick.bind(this);
@@ -35,12 +37,45 @@ var ApiCalendar = function () {
         }
     }
     /**
-     * Update connection status.
-     * @param {boolean} isSignedIn
+     * Set configuration.
+     * @param {object} config 
      */
 
 
     _createClass(ApiCalendar, [{
+        key: 'setApiConfig',
+        value: function setApiConfig(config) {
+            if ((typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object') {
+                var stringConfig = JSON.stringify(config);
+                if (this.isConfigValid(stringConfig)) this.config = config;
+            } else if (typeof config === 'string') {
+                if (this.isConfigValid(config)) this.config = config;
+            }
+        }
+
+        /**
+         * Test configuration.
+         * @param {string} config 
+         */
+
+    }, {
+        key: 'isConfigValid',
+        value: function isConfigValid(config) {
+            try {
+                JSON.parse(config);
+                return true;
+            } catch (e) {
+                console.log(e);
+                return false;
+            }
+        }
+
+        /**
+         * Update connection status.
+         * @param {boolean} isSignedIn
+         */
+
+    }, {
         key: 'updateSigninStatus',
         value: function updateSigninStatus(isSignedIn) {
             this.sign = isSignedIn;
@@ -55,7 +90,7 @@ var ApiCalendar = function () {
             var _this = this;
 
             this.gapi = window['gapi'];
-            this.gapi.client.init(Config).then(function () {
+            this.gapi.client.init(this.config).then(function () {
                 // Listen for sign-in state changes.
                 _this.gapi.auth2.getAuthInstance().isSignedIn.listen(_this.updateSigninStatus);
                 // Handle the initial sign-in state.
