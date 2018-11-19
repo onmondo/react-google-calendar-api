@@ -77,6 +77,7 @@ https://console.developers.google.com/flows/enableapi?apiid=calendar.
         super(props);
         this.handleItemClick = this.handleItemClick.bind(this);
         ApiCalendar.setApiConfig(config.GOOGLE_API_CONFIG);
+        ApiCalendar.handleClientLoad();
       }
       
       public handleItemClick(event: SyntheticEvent<any>, name: string): void {
